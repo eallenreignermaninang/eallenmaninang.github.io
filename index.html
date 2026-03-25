@@ -73,15 +73,36 @@ section { padding:100px 10%; }
 @keyframes fadeInUp { from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);} }
 @keyframes float { 0%,100% {transform:translateY(0);} 50% {transform:translateY(-15px);} }
 
+/*Humburger Button */
+.hamburger {display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:5px; z-index:1001; }
+.hamburger span { display:block; width:25px; height:2px; background:#38bdf8; border-radius:2px; transition:0.3s; }
+
+/* Hamburger open state — animates into X */
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
 /* Responsive */
-@media(max-width:900px){.hero{grid-template-columns:1fr;text-align:center;}.profile-img{margin:auto;}}
+@media(max-width:900px) {
+  .hero { grid-template-columns:1fr; text-align:center; }
+  .profile-img { margin:auto; }
+  .hamburger { display:flex; }
+  nav { display:none; flex-direction:column; position:absolute; top:70px; right:0; background:#020617; width:100%; padding:20px 10%; border-top:1px solid #1e293b; z-index:999; }
+  nav.open { display:flex; }
+  nav a { margin:10px 0; font-size:16px; }
+}
 </style>
 </head>
 <body>
 
 <header>
   <h1>Eallen</h1>
-  <nav>
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <nav id="nav-menu">
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
     <a href="#qa">QA Expertise</a>
@@ -190,7 +211,30 @@ section { padding:100px 10%; }
         <td>TC006</td><td>Email Reset</td><td><span class="badge Fixed">Fixed</span></td>
       </tr>
       <tr class="expand-row"><td colspan="3">Steps: Open login page, click "Forgot Email", enter registered email, submit. Expected: Email reset email sent.</td></tr>
+      <tr class="qa-row" data-status="Fixed">
+  <td>TC007</td><td>Hamburger menu appears on mobile</td><td><span class="badge Fixed">Fixed</span></td>
+</tr>
+<tr class="expand-row"><td colspan="3">Steps: Resize browser below 900px. Expected: Hamburger icon appears, nav links hide. Result: Pass.</td></tr>
 
+<tr class="qa-row" data-status="Fixed">
+  <td>TC008</td><td>Hamburger opens and closes nav</td><td><span class="badge Fixed">Fixed</span></td>
+</tr>
+<tr class="expand-row"><td colspan="3">Steps: Click hamburger button. Expected: Nav menu opens. Click again. Expected: Nav menu closes. Result: Pass.</td></tr>
+
+<tr class="qa-row" data-status="Fixed">
+  <td>TC009</td><td>Hamburger animates to X when open</td><td><span class="badge Fixed">Fixed</span></td>
+</tr>
+<tr class="expand-row"><td colspan="3">Steps: Click hamburger on mobile viewport. Expected: 3 lines animate into X shape. Result: Pass.</td></tr>
+
+<tr class="qa-row" data-status="Fixed">
+  <td>TC010</td><td>Nav closes when link is clicked</td><td><span class="badge Fixed">Fixed</span></td>
+</tr>
+<tr class="expand-row"><td colspan="3">Steps: Open hamburger menu, click any nav link. Expected: Menu closes automatically. Result: Pass.</td></tr>
+
+<tr class="qa-row" data-status="Fixed">
+  <td>TC011</td><td>Desktop nav unaffected by hamburger</td><td><span class="badge Fixed">Fixed</span></td>
+</tr>
+<tr class="expand-row"><td colspan="3">Steps: Resize browser above 900px. Expected: Hamburger hidden, nav links visible as normal. Result: Pass.</td></tr>
 
     </tbody>
   </table>
@@ -226,6 +270,22 @@ section { padding:100px 10%; }
 </footer>
 
 <script>
+// Hamburger menu toggle
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('nav-menu');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navMenu.classList.toggle('open');
+});
+
+// Close nav when a link is clicked
+document.querySelectorAll('#nav-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    navMenu.classList.remove('open');
+  });
+});
 // Scroll reveal for projects
 const projects = document.querySelectorAll('.project');
 function revealOnScroll() {
