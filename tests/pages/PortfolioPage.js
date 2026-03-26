@@ -24,8 +24,8 @@ class PortfolioPage {
     this.navSkills     = page.locator('a[href="#skills"]');
     this.navQA         = page.locator('a[href="#qa"]');
     this.navQADocs     = page.locator('a[href="#qa-docs"]');
-    this.navProjects   = page.locator('a[href="#projects"]');
-    this.navContact    = page.locator('a[href="#contact"]');
+    this.navProjects   = page.locator('nav a[href="#projects"]');
+    this.navContact    = page.locator('nav a[href="#contact"]');
 
     // 🏠 Hero section — the first thing visitors see
     // NOTE: Your HTML has <h1> in the header (logo) and <h2> in the hero.
